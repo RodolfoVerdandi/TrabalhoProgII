@@ -1,5 +1,15 @@
 import pickle
 
+def criarArquivo(matriculas, dicionario):
+	with open("saidas/saidas.txt", "w") as arquivo:
+			for matricula in matriculas:
+				soma = dicionario[matricula][2][0] + dicionario[matricula][2][1] + dicionario[matricula][2][2]
+				if (dicionario[matricula][3]==0):
+					linha=str(dicionario[matricula][0]) + " - " + str(soma) + " +2"
+					arquivo.write(linha+"\n")
+				else: 
+					linha=str(dicionario[matricula][0]) + " - " + str(soma)
+					arquivo.write(linha+"\n")
 def mergeSort(lista, dicionario):
     if len(lista)>1:
         meio = len(lista)//2
@@ -118,10 +128,10 @@ def buscaBinariaAdaptada(lista, dicionario):
             max = meio - 1
     return len(lista)
 
-def criarArquivo(matriculas, dicionario):
+
 
 def main():
-    with open("entradas/entrada100.bin", "rb") as f:
+    with open("entradas/entrada10.bin", "rb") as f:
         dicionario = pickle.load(f)
         f.close()
     matriculas = list(dicionario.keys())
