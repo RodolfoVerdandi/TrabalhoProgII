@@ -1,5 +1,20 @@
 import pickle
 
+def criarArquivo(matriculas, dicionario):
+	with open("saidas.txt", "w") as arquivo:
+			for matricula in matriculas:
+				soma = dicionario[matricula][2][0] + dicionario[matricula][2][1] + dicionario[matricula][2][2]
+				if (dicionario[matricula][3]==0):
+					if soma==99:
+						linha=str(dicionario[matricula][0]) + " - " + str(soma) + " +1"
+					elif soma==100:
+						linha=str(dicionario[matricula][0]) + " - " + str(soma)
+					else:
+						linha=str(dicionario[matricula][0]) + " - " + str(soma) + " +2"
+					arquivo.write(linha+"\n")
+				else: 
+					linha=str(dicionario[matricula][0]) + " - " + str(soma)
+					arquivo.write(linha+"\n")
 def mergeSort(lista, dicionario):
     if len(lista)>1:
         meio = len(lista)//2
@@ -53,30 +68,32 @@ def comparacao(dicionario, m1, m2):
         return False
 
     # Segundo critério: nota sem bônus
-    if(faltas1 == 0 and faltas2 > 0):
+    soma1 = dicionario[m1][2][0] + dicionario[m1][2][1] + dicionario[m1][2][2]
+    soma2 = dicionario[m2][2][0] + dicionario[m2][2][1] + dicionario[m2][2][2]
+    if(soma1<soma2):
         return False
-    elif(faltas2 == 0 and faltas1 > 0):
+    elif (soma2<soma1):
         return True
 
     # Terceiro critério: semestre letivo
     if(dicionario[m1][1][0] < dicionario[m2][1][0]):
-        return True
-    elif(dicionario[m1][1][0] > dicionario[m2][1][0]):
         return False
+    elif(dicionario[m1][1][0] > dicionario[m2][1][0]):
+        return True
     else:
         if(dicionario[m1][1][1] < dicionario[m2][1][1]):
-            return True
-        elif(dicionario[m1][1][1] > dicionario[m2][1][1]):
             return False
+        elif(dicionario[m1][1][1] > dicionario[m2][1][1]):
+            return True
 
     # Quarto critério: ordem alfabética
     nomes = [dicionario[m1][0], dicionario[m2][0]]
     nomesAlfa = sorted(nomes)
-    if(nomes != nomesAlfa):
+    if(nomes[0] == nomesAlfa[0]):
         return True
     else:
         if(nomes[0] != nomes[1]):
-            return True
+            return False
 
     # Quinto critério: matrícula
     matriculas = [int(m1[3:]), int(m2[3:])]
@@ -118,10 +135,10 @@ def buscaBinariaAdaptada(lista, dicionario):
             max = meio - 1
     return len(lista)
 
-def criarArquivo(matriculas, dicionario):
+
 
 def main():
-    with open("entradas/entrada100.bin", "rb") as f:
+    with open("entradas/entrada100000.bin", "rb") as f:
         dicionario = pickle.load(f)
         f.close()
     matriculas = list(dicionario.keys())
